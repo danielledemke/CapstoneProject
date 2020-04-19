@@ -42,5 +42,11 @@ namespace Capstone.Data
 
              );
         }
+        public DbSet<Artist> Artist { get; set; }
+        public DbSet<Consumer> Consumer { get; set; }
+        public DbSet<ConsumerRequest> ConsumerRequest { get; set; }
+        public DbSet<ArtistCategories> ArtistCategories { get; set; }
+        public DbSet<Categories> Categories { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
     }
 }

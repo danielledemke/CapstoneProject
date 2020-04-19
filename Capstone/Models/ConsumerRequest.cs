@@ -12,7 +12,6 @@ namespace Capstone.Models
         public int ConsumerRequestId { get; set; }
         public DateTime DateTime { get; set; }
         public string Request { get; set; }
-        public int RecipientUserId { get; set; }
 
         [ForeignKey("Consumer")]
         public int ConsumerId { get; set; }
