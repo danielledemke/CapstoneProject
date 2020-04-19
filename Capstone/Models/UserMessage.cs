@@ -15,7 +15,7 @@ namespace Capstone.Models
         public int RecipientUserId { get; set; }
 
         [ForeignKey("IdentityUser")]
-        public int IdentityUserId { get; set; }
+        public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
     }
 }

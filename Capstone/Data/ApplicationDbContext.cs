@@ -20,16 +20,11 @@ namespace Capstone.Data
             base.OnModelCreating(builder);
             builder.Entity<IdentityRole>()
                 .HasData(
-                new IdentityRole
-                {
-                    Name = "Artist",
-                    NormalizedName = "ARTIST"
-                },
-                 new IdentityRole
-                 {
-                     Name = "Consumer",
-                     NormalizedName = "CONSUMER"
-                 },
+                new IdentityRole { Name = "Artist", NormalizedName = "ARTIST", Id = "07e98e2e-8bbf-457d-8564-a619c36ab27f", ConcurrencyStamp = "ca934950-ebfb-45a3-9ae5-9e483ab35528" },
+                new IdentityRole { Name = "Consumer", NormalizedName = "CONSUMER", Id = "65bddf41-6651-40b8-80be-0bcbab5d89a9", ConcurrencyStamp = "24788613-e613-4e77-9f96-948472358639" }
+                 );
+            builder.Entity<Categories>()
+               .HasData(
                  new Categories { CategoriesId = 1, Name = "Painting" },
                  new Categories { CategoriesId = 2, Name = "Digital" },
                  new Categories { CategoriesId = 3, Name = "Drawing" },
@@ -39,8 +34,7 @@ namespace Capstone.Data
                  new Categories { CategoriesId = 7, Name = "Woodwork" },
                  new Categories { CategoriesId = 8, Name = "Jewelry" },
                  new Categories { CategoriesId = 9, Name = "Photography" }
-
-             );
+                );
         }
         public DbSet<Artist> Artist { get; set; }
         public DbSet<Consumer> Consumer { get; set; }
