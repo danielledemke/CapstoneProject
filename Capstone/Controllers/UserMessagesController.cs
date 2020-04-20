@@ -25,139 +25,67 @@ namespace Capstone.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var foundUser = _context.Users.Where(s => s.Id == userId).SingleOrDefault();
-            var userMessages = _context.UserMessages.FindByCondition(a => a.RecipientUserId == foundUser.UserId).Select(a => a);
-            return View(await applicationDbContext.ToListAsync());
+            var userMessages = _context.UserMessages.Where(a => a.RecipientUserId == foundUser.Id).Select(a=>a);
+            return View(userMessages);
         }
 
-        // GET: UserMessages/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult SendMessage(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userMessage = await _context.UserMessages
-                .Include(u => u.IdentityUser)
-                .FirstOrDefaultAsync(m => m.UserMessageId == id);
-            if (userMessage == null)
-            {
-                return NotFound();
-            }
-
-            return View(userMessage);
-        }
-
-        // GET: UserMessages/Create
-        public IActionResult Create()
-        {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            var loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.Sender = _context.Users.Where(a => a.Id == loggedInUserId).SingleOrDefault();
+            ViewBag.Recipient = _context.Users.Where(a => a.Id == id).SingleOrDefault();
             return View();
         }
 
-        // POST: UserMessages/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // GET: UserMessages/Details/5
+        public ActionResult Details(int? id)
+        {
+            return View();
+        }
+
+        // POST: UserMessage/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserMessageId,DateTime,Message,RecipientUserId,IdentityUserId")] UserMessage userMessage)
+        public ActionResult Create(UserMessage userMessage)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(userMessage);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // TODO: Add insert logic here
+                userMessage = new UserMessage();
+                userMessage.DateTime = DateTime.UtcNow;
+                _context.UserMessages.Add(userMessage);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", userMessage.IdentityUserId);
-            return View(userMessage);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: UserMessages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userMessage = await _context.UserMessages.FindAsync(id);
-            if (userMessage == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", userMessage.IdentityUserId);
-            return View(userMessage);
+            return View();
         }
 
-        // POST: UserMessages/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // POST: UserMessage/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserMessageId,DateTime,Message,RecipientUserId,IdentityUserId")] UserMessage userMessage)
+        public ActionResult Delete(int id)
         {
-            if (id != userMessage.UserMessageId)
+            try
             {
-                return NotFound();
-            }
+                // TODO: Add delete logic here
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(userMessage);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserMessageExists(userMessage.UserMessageId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", userMessage.IdentityUserId);
-            return View(userMessage);
-        }
-
-        // GET: UserMessages/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            catch
             {
-                return NotFound();
+                return View();
             }
-
-            var userMessage = await _context.UserMessages
-                .Include(u => u.IdentityUser)
-                .FirstOrDefaultAsync(m => m.UserMessageId == id);
-            if (userMessage == null)
-            {
-                return NotFound();
-            }
-
-            return View(userMessage);
-        }
-
-        // POST: UserMessages/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userMessage = await _context.UserMessages.FindAsync(id);
-            _context.UserMessages.Remove(userMessage);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UserMessageExists(int id)
-        {
-            return _context.UserMessages.Any(e => e.UserMessageId == id);
         }
     }
 }

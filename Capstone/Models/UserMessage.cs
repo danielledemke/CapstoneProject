@@ -12,7 +12,7 @@ namespace Capstone.Models
         public int UserMessageId { get; set; }
         public DateTime DateTime { get; set; }
         public string Message { get; set; }
-        public int RecipientUserId { get; set; }
+        public string RecipientUserId { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

@@ -24,5 +24,11 @@ namespace Capstone.Services
             return null;
 
         }
+
+        public async Task<LocationService> DisplayLocation()
+        {
+            var location = GetLocation();
+
+        }
     }
 }

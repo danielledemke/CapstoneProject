@@ -1,58 +1,55 @@
-﻿@model IEnumerable<Capstone.Models.Artist>
+﻿@model IEnumerable<Capstone.Models.ConsumerRequest>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Home</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Profile</a>
+</p>
+<p>
+    <a asp-action="Edit" asp-route-id="@ViewBag.CurrentArtistId">Edit Your Account</a> |
+</p>
+<p>
+    <a asp-action="Details" asp-route-id="@ViewBag.CurrentArtistId">Your Account Details</a> |
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.DateTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Consumer.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Consumer.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImgUrl)
+                @Html.DisplayNameFor(model => model.Request)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.DateTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.Consumer.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.Consumer.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImgUrl)
+                @Html.DisplayFor(modelItem => item.Request)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ArtistId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ArtistId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ArtistId">Delete</a>
+               <a asp-action="Details" asp-route-id="@item.ConsumerId">View Profile</a>
             </td>
         </tr>
 }
