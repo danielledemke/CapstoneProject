@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
@@ -22,7 +23,13 @@ namespace Capstone.Controllers
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Artist.Include(a => a.IdentityUser);
+            var artistId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var artist = _context.Artist.Where(a => a.IdentityUserId == artistId).SingleOrDefault();
+            ViewBag.CurrentArtistId = artist.ArtistId;
+            var numberOfRequests = _context.ConsumerRequest.Count();
+            ViewBag.NumberOfRequests = numberOfRequests;
+            ViewBag.ImgUrl = artist.ImgUrl;
+            var applicationDbContext = _context.ConsumerRequest.Select(a=>a);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -49,7 +56,8 @@ namespace Capstone.Controllers
         public IActionResult Create()
         {
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            Artist artist = new Artist();
+            return View(artist);
         }
 
         // POST: Artists/Create
@@ -57,10 +65,11 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArtistId,FirstName,LastName,Email,ImgUrl,IdentityUserId")] Artist artist)
+        public async Task<IActionResult> Create([Bind("ArtistId,FirstName,LastName,Email,ImgUrl")] Artist artist)
         {
             if (ModelState.IsValid)
             {
+                artist.IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

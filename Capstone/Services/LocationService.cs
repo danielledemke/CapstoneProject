@@ -25,10 +25,10 @@ namespace Capstone.Services
 
         }
 
-        public async Task<LocationService> DisplayLocation()
-        {
-            var location = GetLocation();
+        //public async Task<LocationService> DisplayLocation()
+        //{
+        //    var location = GetLocation();
 
-        }
+        //}
     }
 }
