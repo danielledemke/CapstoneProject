@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using Capstone.Data;
 
 namespace Capstone.Areas.Identity.Pages.Account
 {
@@ -20,14 +22,17 @@ namespace Capstone.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            ApplicationDbContext applicationDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = applicationDbContext;
         }
 
         [BindProperty]
@@ -74,7 +79,9 @@ namespace Capstone.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = _context.Artist.Where(a => a.IdentityUserId == currentUserId).SingleOrDefault();
+            
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -82,8 +89,25 @@ namespace Capstone.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    if (currentUser.ArtistId == null || currentUser.ArtistId == 0)
+                    {
+                        var user = _context.Consumer.Where(a => a.IdentityUserId == currentUserId).SingleOrDefault();
+                        if(user.ConsumerId == null || user.ConsumerId == 0)
+                        {
+                            return RedirectToAction("Create", "Consumers");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Create", "Artists");
+                        }
+                        
+                    }
+                    //else
+                    //{
+                    //    return RedirectToAction("Index");
+                    //}
                 }
                 if (result.RequiresTwoFactor)
                 {

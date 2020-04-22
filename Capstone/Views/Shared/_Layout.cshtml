@@ -1,49 +1,114 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Capstone</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>@ViewData["Title"] - Artfully</title>
+
+    <title></title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/Template/assets/img/favicon.png" rel="icon">
+    <link href="~/Template/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Template/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Template/assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="~/Template/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Template/assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="~/Template/assets/vendor/line-awesome/css/line-awesome.min.css" rel="stylesheet">
+    <link href="~/Template/assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/Template/assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Template/assets/css/style.css" rel="stylesheet">
+ 
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Capstone</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="container d-flex">
+
+            <div class="logo mr-auto">
+                <h1><a asp-action="Index">Artfully</a></h1>
             </div>
-        </nav>
-    </header>
+            <!-- Nav Bar -->
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="active">
+                        <a class="nav-link" asp-action="Index">Home</a>
+                    </li>
+                    
+                  
+                    @*<li class="get-started"><a href="#get-started">Get Started</a></li>*@
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="active">
+                            <a class="nav-link" asp-action="Details">Account</a>
+                        </li>
+                        <li class="active">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Account">Hello @User.Identity.Name!</a>
+                        </li>
+                        <li class="get-started">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link">Logout</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="get-started">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        </li>
+                        <li class="get-started">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                    }
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+
+    <!-- ======= Footer ======= -->
+    <footer class="bg-black small text-center text-black">
         <div class="container">
-            &copy; 2020 - Capstone - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Artfully - Capstone Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </footer><!-- End Footer -->
+
     @RenderSection("Scripts", required: false)
+
+    <!-- Vendor JS Files -->
+    <script src="~/Template/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Template/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Template/assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="~/Template/assets/vendor/php-email-form/validate.js"></script>
+    <script src="~/Template/assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="~/Template/assets/vendor/counterup/counterup.min.js"></script>
+    <script src="~/Template/assets/vendor/venobox/venobox.min.js"></script>
+    <script src="~/Template/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="~/Template/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Template/assets/vendor/aos/aos.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/Template/assets/js/main.js"></script>
+
 </body>
 </html>
