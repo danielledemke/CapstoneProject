@@ -3,11 +3,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
-    <div class="text-center">
-        <h1 class="display-4 text-white">Welcome!</h1>
-        <p class="text-white">Artfully is a web application that allows consumers to post custom art requests, and artists can respond to the request. Sign up today so you can get the art you've imagined! </p>
-    </div>
-</body>
+    <body>
+        <div class="container" data-aos="fade-up">
+            <h1>Welcome!</h1>
+        </div>
+        <section id="about" class="about">
+            <div class="container" data-aos="fade-up">
+                <h5 class="text-white">Artfully is a web application that allows consumers to post custom art requests, and artists can respond to the request. Sign up today so you can get the art you've imagined! </h5>
+            </div>
+            <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
+                <div class="count-box py-5">
+                    <i class="icofont-simple-smile"></i>
+                    <span data-toggle="counter-up">@ViewBag.ConsumerRequests</span>
+                    <p>Custom Art Requests</p>
+                </div>
+            </div>
+        </section>
+    </body>
 
 

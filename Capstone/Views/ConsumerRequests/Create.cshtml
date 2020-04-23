@@ -1,0 +1,38 @@
+﻿@model Capstone.Models.ConsumerRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Custom Art Request</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Request" class="control-label"></label>
+                <input asp-for="Request" class="form-control" />
+                <span asp-validation-for="Request" class="text-danger"></span>
+            </div>
+            @Html.HiddenFor(model => model.ConsumerId)
+            @Html.HiddenFor(model => model.DateTime)
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="text-primary" asp-controller="Consumer" asp-action="Index">Back to Home Page</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

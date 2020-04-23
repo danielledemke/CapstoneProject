@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
 using System.Security.Claims;
+using Capstone.Contracts;
+using Capstone.Services;
 
 namespace Capstone.Controllers
 {
     public class ArtistsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly LocationService _locationService;
 
-        public ArtistsController(ApplicationDbContext context)
+        public ArtistsController(ApplicationDbContext context, LocationService locationService)
         {
             _context = context;
+            _locationService = locationService;
         }
 
         // GET: Artists
@@ -41,21 +45,26 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var artist = await _context.Artist
+            var user = await _context.Consumer
                 .Include(a => a.IdentityUser)
-                .FirstOrDefaultAsync(m => m.ArtistId == id);
-            if (artist == null)
+                .FirstOrDefaultAsync(m => m.ConsumerId == id);
+            var artistId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var artist = _context.Artist.Where(a => a.IdentityUserId == artistId).SingleOrDefault();
+            ViewBag.CurrentArtistId = artist.ArtistId;
+
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(artist);
+            return View(user);
         }
 
         // GET: Artists/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            var artCategories = _context.ArtistCategories.ToList();
+            ViewBag.ArtCategories = new SelectList(artCategories);
             Artist artist = new Artist();
             return View(artist);
         }
@@ -65,7 +74,7 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArtistId,FirstName,LastName,Email,ImgUrl")] Artist artist)
+        public async Task<IActionResult> Create([Bind("ArtistId,FirstName,LastName,Email,ImgUrl,ArtistCategories")] Artist artist)
         {
             if (ModelState.IsValid)
             {

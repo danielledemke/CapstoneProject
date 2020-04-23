@@ -19,6 +19,7 @@ namespace Capstone.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string ImgUrl { get; set; }
+        [Display(Name = "Artist Categories")]
         public List<ArtistCategories> ArtistCategories { get; set; }
 
 

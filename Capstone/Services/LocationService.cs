@@ -1,4 +1,6 @@
 ﻿using Capstone.Contracts;
+using Capstone.JSON;
+using Capstone.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,12 @@ using System.Threading.Tasks;
 
 namespace Capstone.Services
 {
-    public class LocationService : ILocationService
+    public class LocationService
     {
+        public LocationService()
+        {
+
+        }
 
         public async Task<LocationService> GetLocation()
         {
@@ -24,11 +30,16 @@ namespace Capstone.Services
             return null;
 
         }
-
-        //public async Task<LocationService> DisplayLocation()
-        //{
-        //    var location = GetLocation();
-
-        //}
+        public async Task<CoordsJson> GetUserCoords(Consumer consumer)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={consumer.ZipCode},US&sensor=false&key={ApiKey.GoogleKey}");
+            if (response.IsSuccessStatusCode)
+            {
+                string json = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<CoordsJson>(json);
+            }
+            return null;
+        }
     }
 }

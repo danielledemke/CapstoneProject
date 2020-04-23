@@ -7,9 +7,17 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row">
+    <p>
+        <a asp-action="Create">Create Profile</a>
+    </p>
+    <p>
+        <a asp-controller="ConsumerRequests" asp-action="Create">Create New Art Request</a>
+    </p>
+    <p>
+        <a asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</a>
+    </p>
+</div>
 <table class="table">
     <thead>
         <tr>

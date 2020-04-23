@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
+using Capstone.Contracts;
+using Capstone.Services;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
     public class ConsumersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly LocationService _locationService;
 
         public ConsumersController(ApplicationDbContext context)
         {
             _context = context;
+            //_locationService = locationService;
         }
 
         // GET: Consumers
@@ -49,7 +54,8 @@ namespace Capstone.Controllers
         public IActionResult Create()
         {
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            Consumer consumer = new Consumer();
+            return View(consumer);
         }
 
         // POST: Consumers/Create
@@ -61,6 +67,11 @@ namespace Capstone.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                consumer.IdentityUserId = userId;
+                var coords = await _locationService.GetUserCoords(consumer);
+                consumer.Latitude = coords.results[0].geometry.location.lat;
+                consumer.Longitude = coords.results[0].geometry.location.lng;
                 _context.Add(consumer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
