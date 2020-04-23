@@ -4,63 +4,93 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h1>Home</h1>
+        <!-- Material Design Bootstrap -->
+        <link rel="stylesheet" href="~/Template/assets/css/mdb.min.css">
+    </head>
 
-<div class="container">
-    <p class="w3-center">
-        <img src="@ViewBag.ImgUrl" style="height:106px;width:106px" alt="Avatar">
-    </p>
-    <p>
-        <a asp-action="Create">Add New Profile</a>
-    </p>
-    <p>
-        <a asp-action="Edit" asp-route-id="@ViewBag.CurrentArtistId">Edit Your Account</a> |
-    </p>
-    <p>
-        <a asp-action="Details" asp-route-id="@ViewBag.CurrentArtistId">Your Account Details</a> |
-    </p>
-    <p> 
-        <a asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</a>
-    </p>
-</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Consumer.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Consumer.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Request)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Consumer.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Consumer.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Request)
-            </td>
-            <td>
-               <a asp-action="Details" asp-route-id="@item.ConsumerId">View Profile</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <body>
+        <div class="row" style="text-align:center">
+            <h1>Home</h1>
+        </div>
+        <div class="container">
+            <p class="w3-center">
+                <img src="@Html.Raw(ViewBag.ImgUrl)" style="height:106px;width:106px" alt="Avatar">
+            </p>
+            <p>
+                <a asp-action="Create">Add New Profile</a>
+            </p>
+            <p>
+                <a asp-action="Edit" asp-route-id="@ViewBag.CurrentArtistId">Edit Your Account</a> |
+            </p>
+            <p>
+                <a asp-action="Details" asp-route-id="@ViewBag.CurrentArtistId">Your Account Details</a> |
+            </p>
+            <p>
+                <a asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</a>
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="myChart" style="max-width: 500px;"></canvas>
+            </div>
+            <div class="col-md-6">
+                <img src="~/Template/assets/img/sample.jpg" alt="sample art" />
+            </div>
+
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Consumer.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Consumer.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Request)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Consumer.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Consumer.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Request)
+                        </td>
+                        <td>
+                            <a asp-controller="Consumers" asp-action="Details" asp-route-id="@item.ConsumerId">View Profile</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="~/Template/assets/js/mdb.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="~/Template/assets/js/popper.min.js"></script>
+        <script type="text/javascript" src="~/Template/assets/js/chart.js"></script>
+
+
+    </body>

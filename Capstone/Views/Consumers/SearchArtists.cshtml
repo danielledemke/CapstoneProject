@@ -60,7 +60,7 @@
                             <img src="@Html.Raw(item.ImgUrl)" height="25" alt="User Image" />
                         </td>
                         <td>
-                            <a asp-action="Details" asp-route-id="@item.ArtistId">View Profile</a>
+                            <a asp-controller="Artists" asp-action="Details" asp-route-id="@item.ArtistId">View Profile</a>
                         </td>
                     </tr>
                 }

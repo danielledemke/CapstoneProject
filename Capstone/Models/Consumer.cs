@@ -11,7 +11,7 @@ namespace Capstone.Models
     public class Consumer
     {
         [Key]
-        public int ConsumerId { get; set; }
+        public string ConsumerId { get; set; }
 
         [Display(Name = "First Name")]
         public string FirstName { get; set; }

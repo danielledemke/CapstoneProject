@@ -16,11 +16,12 @@ namespace Capstone.Controllers
     public class ConsumersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly LocationService _locationService;
+        private readonly ILocationService _locationService;
 
-        public ConsumersController(ApplicationDbContext context)
+        public ConsumersController(ApplicationDbContext context, ILocationService locationService)
         {
             _context = context;
+            _locationService = locationService;
 
         }
 
@@ -165,9 +166,15 @@ namespace Capstone.Controllers
 
         public ActionResult SearchArtists()
         {
-            var artists = _context.Artist.Distinct().ToList();
             var artCategories = _context.ArtistCategories.ToList();
-            ViewBag.ArtCategories = new SelectList(artCategories);
+            var artists = _context.Artist.Distinct().ToList();
+            List<SelectListItem> categories = new List<SelectListItem>();
+            foreach(var category in artCategories)
+            {
+                categories.Add(new SelectListItem() { Value = category.Name, Text = category.Name });
+            }
+            
+            ViewBag.ArtCategories = categories;
             return View(artists);
         }
 

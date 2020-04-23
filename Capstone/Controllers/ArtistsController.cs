@@ -64,7 +64,13 @@ namespace Capstone.Controllers
         public IActionResult Create()
         {
             var artCategories = _context.ArtistCategories.ToList();
-            ViewBag.ArtCategories = new SelectList(artCategories);
+            List<SelectListItem> categories = new List<SelectListItem>();
+            foreach (var category in artCategories)
+            {
+                categories.Add(new SelectListItem() { Value = category.Name, Text = category.Name });
+            }
+
+            ViewBag.ArtCategories = categories;
             Artist artist = new Artist();
             return View(artist);
         }

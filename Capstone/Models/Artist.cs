@@ -11,7 +11,7 @@ namespace Capstone.Models
     public class Artist
     {
         [Key]
-        public int ArtistId { get; set; }
+        public string ArtistId { get; set; }
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 

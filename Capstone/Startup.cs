@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Capstone.ActionFilters;
+using Capstone.Services;
+using Capstone.Contracts;
 
 namespace Capstone
 {
@@ -37,6 +39,7 @@ namespace Capstone
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+            services.AddScoped<ILocationService, LocationService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<ClaimsPrincipal>(s =>
