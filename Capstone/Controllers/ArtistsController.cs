@@ -38,7 +38,7 @@ namespace Capstone.Controllers
         }
 
         // GET: Artists/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -147,7 +147,7 @@ namespace Capstone.Controllers
         }
 
         // GET: Artists/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {

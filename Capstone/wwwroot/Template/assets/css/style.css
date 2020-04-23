@@ -642,7 +642,7 @@ section {
   animation-delay: 0s;
   -webkit-animation: pulsate-btn 2s;
   animation: pulsate-btn 2s;
-  -webkit-animation-direction: forwards;
+  -webkit-animation-direction:normal;
   animation-direction: forwards;
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;

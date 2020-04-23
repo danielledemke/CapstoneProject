@@ -17,7 +17,7 @@ namespace Capstone.Models
         public string Request { get; set; }
 
         [ForeignKey("Consumer")]
-        public int ConsumerId { get; set; }
+        public string ConsumerId { get; set; }
         public Consumer Consumer { get; set; }
     }
 }

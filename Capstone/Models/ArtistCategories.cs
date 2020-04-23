@@ -14,7 +14,7 @@ namespace Capstone.Models
         public string Name { get; set; }
 
         [ForeignKey("Artist")]
-        public int ArtistId { get; set; }
+        public string ArtistId { get; set; }
         public Artist Artist { get; set; }
 
         [ForeignKey("Categories")]

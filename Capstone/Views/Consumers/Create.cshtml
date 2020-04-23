@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>Consumer</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,6 +33,7 @@
                 <input asp-for="ZipCode" class="form-control" />
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
+            @Html.HiddenFor(model => model.ConsumerId)
             @Html.HiddenFor(model => model.IdentityUserId)
             @Html.HiddenFor(model => model.Latitude)
             @Html.HiddenFor(model => model.Longitude)
