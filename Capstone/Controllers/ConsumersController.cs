@@ -21,7 +21,7 @@ namespace Capstone.Controllers
         public ConsumersController(ApplicationDbContext context)
         {
             _context = context;
-            //_locationService = locationService;
+
         }
 
         // GET: Consumers
@@ -161,6 +161,14 @@ namespace Capstone.Controllers
             _context.Consumer.Remove(consumer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult SearchArtists()
+        {
+            var artists = _context.Artist.Distinct().ToList();
+            var artCategories = _context.ArtistCategories.ToList();
+            ViewBag.ArtCategories = new SelectList(artCategories);
+            return View(artists);
         }
 
         private bool ConsumerExists(int id)

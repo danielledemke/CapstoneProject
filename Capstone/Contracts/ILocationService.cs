@@ -12,6 +12,6 @@ namespace Capstone.Contracts
 {
     public interface ILocationService
     {
-        Task GetUserCoords(Consumer consumer);
+        Task<CoordsJson> GetUserCoords(Consumer consumer);
     }
 }

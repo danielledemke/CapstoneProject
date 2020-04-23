@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.Services
 {
-    public class LocationService
+    public class LocationService : ILocationService
     {
         public LocationService()
         {

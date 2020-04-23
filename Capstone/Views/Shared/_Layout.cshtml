@@ -67,7 +67,7 @@
                     }
                     else
                     {
-                        <li class="get-started">
+                        <li class="active">
                             <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
                         </li>
                         <li class="get-started">
@@ -79,15 +79,17 @@
         </div>
     </header><!-- End Header -->
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    
+        <div class="container" data-aos="fade-in">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    
 
 
     <!-- ======= Footer ======= -->
-    <footer class="bg-black small text-center text-black">
+    <footer class="bg-black small text-center text-white">
         <div class="container">
             &copy; 2020 - Artfully - Capstone Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

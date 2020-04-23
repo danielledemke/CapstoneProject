@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Capstone.Models.Artist>
+@{
+    ViewData["Title"] = "SearchArtists";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Artist Search</title>
+</head>
+<body>
+    <h1>Artist Search</h1>
+
+    @using (Html.BeginForm("FilterByCategory", "Consumer", new { @id = "FilterForm" }))
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <p id="FilterSelection">
+                @Html.DropDownList("ArtCategories")
+            </p>
+            <p>
+                <input type="submit" value="Display" />
+            </p>
+        </fieldset>
+    }
+    <div class="row">
+        <table class="table" id="artistsTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImgUrl)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            <img src="@Html.Raw(item.ImgUrl)" height="25" alt="User Image" />
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.ArtistId">View Profile</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("change", "#artistsTable", function () {
+            $('#FilterForm')[0].submit();
+        });
+        $("body").on("click", function () {
+            $('#artistsTable').attr('action', $(this).attr('href')).submit();
+            return false;
+        });
+    </script>
+
+</body>
+</html>

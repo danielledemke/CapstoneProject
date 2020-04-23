@@ -16,9 +16,9 @@ namespace Capstone.Controllers
     public class ArtistsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly LocationService _locationService;
+        private readonly ILocationService _locationService;
 
-        public ArtistsController(ApplicationDbContext context, LocationService locationService)
+        public ArtistsController(ApplicationDbContext context, ILocationService locationService)
         {
             _context = context;
             _locationService = locationService;
