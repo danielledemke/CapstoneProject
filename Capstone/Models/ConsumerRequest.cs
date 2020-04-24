@@ -11,13 +11,13 @@ namespace Capstone.Models
     public class ConsumerRequest
     {
         public int ConsumerRequestId { get; set; }
-
         [Display(Name = "Date of Request")]
         public DateTime DateTime { get; set; }
         public string Request { get; set; }
 
         [ForeignKey("Consumer")]
-        public string ConsumerId { get; set; }
+        public int ConsumerId { get; set; }
         public Consumer Consumer { get; set; }
+
     }
 }

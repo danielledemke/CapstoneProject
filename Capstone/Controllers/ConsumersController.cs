@@ -28,8 +28,9 @@ namespace Capstone.Controllers
         // GET: Consumers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Consumer.Include(c => c.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var consumer = _context.Consumer.Where(a=>a.IdentityUserId == userId).SingleOrDefault();
+            return View(consumer);
         }
 
         // GET: Consumers/Details/5
@@ -166,15 +167,20 @@ namespace Capstone.Controllers
 
         public ActionResult SearchArtists()
         {
-            var artCategories = _context.ArtistCategories.ToList();
+            
             var artists = _context.Artist.Distinct().ToList();
             List<SelectListItem> categories = new List<SelectListItem>();
-            foreach(var category in artCategories)
-            {
-                categories.Add(new SelectListItem() { Value = category.Name, Text = category.Name });
-            }
-            
+            categories.Add(new SelectListItem { Value = "Painting", Text = "Painting" });
+            categories.Add(new SelectListItem { Value = "Digital", Text = "Digital" });
+            categories.Add(new SelectListItem { Value = "Drawing", Text = "Drawing" });
+            categories.Add(new SelectListItem { Value = "Sculpture", Text = "Sculpture" });
+            categories.Add(new SelectListItem { Value = "Clothing", Text = "Clothing" });
+            categories.Add(new SelectListItem { Value = "Crafts", Text = "Crafts" });
+            categories.Add(new SelectListItem { Value = "Woodwork", Text = "Woodwork" });
+            categories.Add(new SelectListItem { Value = "Jewelry", Text = "Jewelry" });
+            categories.Add(new SelectListItem { Value = "Photography", Text = "Photography" });
             ViewBag.ArtCategories = categories;
+
             return View(artists);
         }
 

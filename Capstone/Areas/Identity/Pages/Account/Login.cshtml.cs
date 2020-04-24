@@ -91,10 +91,10 @@ namespace Capstone.Areas.Identity.Pages.Account
                 {
                     
                     _logger.LogInformation("User logged in.");
-                    if (currentUser.ArtistId == null)
+                    if (currentUser.ArtistId == 0)
                     {
                         var user = _context.Consumer.Where(a => a.IdentityUserId == currentUserId).SingleOrDefault();
-                        if(user.ConsumerId == null)
+                        if(user.ConsumerId == 0)
                         {
                             return RedirectToAction("Create", "Consumers");
                         }

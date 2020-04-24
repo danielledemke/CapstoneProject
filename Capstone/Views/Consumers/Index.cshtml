@@ -5,8 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row" style="padding-bottom:50px; text-align:center">
-        <h1>Home</h1>
+    <div class="row" style="padding-bottom:50px; align-content:center">
+        <div class="col-lg-12" style="text-align:center">
+            <h1 style="color:cornflowerblue;">Home</h1>
+        </div>
     </div>
 
     <body>
@@ -14,24 +16,31 @@
         <div class="row">
             <div class="col-3">
                 <p>
-                    <a asp-action="Create">Create Profile</a>
+                    <button class="btn-get-started" asp-action="Create">Create Profile</button>
                 </p>
             </div>
             <div class="col-3">
                 <p>
-                    <a asp-controller="ConsumerRequests" asp-action="Create">Create New Art Request</a>
+                    <button type="submit" class="btn-get-started" asp-controller="ConsumerRequests" asp-action="Create">Create New Art Request</button>
                 </p>
             </div>
             <div class="col-3">
                 <p>
-                    <a asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</a>
+                    <button type="submit" class="btn-get-started" asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</button>
                 </p>
             </div>
             <div class="col-3">
                 <p>
-                    <a asp-controller="Consumers" asp-action="SearchArtists">Search Artists</a>
+                    <button type="submit" class="btn-get-started" asp-controller="Consumers" asp-action="SearchArtists">Search Artists</button>
                 </p>
             </div>
+        </div>
+
+        <div class="row" style="padding-bottom:30px;">
+            <p>
+                 
+            </p>
+
         </div>
         <table class="table">
             <thead>
@@ -49,15 +58,8 @@
                         @Html.DisplayNameFor(model => model.ZipCode)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Longitude)
+                        <i>Actions</i>
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Latitude)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdentityUser)
-                    </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -77,21 +79,17 @@
                             @Html.DisplayFor(modelItem => item.ZipCode)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Longitude)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Latitude)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-                        </td>
-                        <td>
                             <a asp-action="Edit" asp-route-id="@item.ConsumerId">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.ConsumerId">Details</a> |
                             <a asp-action="Delete" asp-route-id="@item.ConsumerId">Delete</a>
                         </td>
                     </tr>
+                    @Html.HiddenFor(modelItem => item.ConsumerId)
+                    @Html.HiddenFor(modelItem => item.IdentityUserId)
+                    @Html.HiddenFor(modelItem => item.Latitude)
+                    @Html.HiddenFor(modelItem => item.Longitude)
                 }
             </tbody>
+           
         </table>
     </body>

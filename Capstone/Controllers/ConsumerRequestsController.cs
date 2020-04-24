@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
@@ -56,18 +57,14 @@ namespace Capstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ConsumerRequest consumerRequest)
         {
-            try
-            {
-                // TODO: Add insert logic here
-               consumerRequest.DateTime = DateTime.UtcNow;
-                _context.ConsumerRequest.Add(consumerRequest);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = _context.Consumer.Where(a => a.IdentityUserId == userId).SingleOrDefault();
+            consumerRequest.DateTime = DateTime.UtcNow;
+            consumerRequest.ConsumerId = currentUser.ConsumerId;
+            _context.ConsumerRequest.Add(consumerRequest);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                return RedirectToAction("Index", "Consumers");
+            
         }
 
         // GET: ConsumerRequests/Edit/5

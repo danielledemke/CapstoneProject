@@ -5,17 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Send a Message</h1>
 
-<h4>UserMessage</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
+
+                <input type="hidden" asp-for="UserMessageId" class="form-control" />
+                <span asp-validation-for="UserMessageId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <input type="hidden" asp-for="DateTime" class="form-control" />
                 <span asp-validation-for="DateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,20 +28,20 @@
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RecipientUserId" class="control-label"></label>
-                <input asp-for="RecipientUserId" class="form-control" />
-                <span asp-validation-for="RecipientUserId" class="text-danger"></span>
+
+                <input type="hidden" asp-for="IdentityUserId" class="form-control" value="@ViewBag.Sender.UserId" />
+                <span asp-validation-for="IdentityUserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdentityUserId" class="control-label"></label>
-                <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
+                <input type="hidden" asp-for="RecipientUserId" class="form-control" value="@ViewBag.Recipient.UserId" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Send" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
 
 <div>
     <a asp-action="Index">Back to List</a>

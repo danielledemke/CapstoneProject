@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
 using System.Security.Claims;
+using Capstone.Contracts;
 
 namespace Capstone.Controllers
 {
@@ -26,6 +27,7 @@ namespace Capstone.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var foundUser = _context.Users.Where(s => s.Id == userId).SingleOrDefault();
             var userMessages = _context.UserMessages.Where(a => a.RecipientUserId == foundUser.Id).Select(a=>a);
+            ViewBag.UserList = _context.UserMessages.Where(a => a.IdentityUser.Id == a.IdentityUserId).Distinct();
             return View(userMessages);
         }
 
@@ -37,6 +39,10 @@ namespace Capstone.Controllers
             return View();
         }
 
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "Consumers");
+        }
 
         // GET: UserMessages/Details/5
         public ActionResult Details(int? id)

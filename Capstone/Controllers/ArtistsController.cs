@@ -38,7 +38,7 @@ namespace Capstone.Controllers
         }
 
         // GET: Artists/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -63,15 +63,20 @@ namespace Capstone.Controllers
         // GET: Artists/Create
         public IActionResult Create()
         {
-            var artCategories = _context.ArtistCategories.ToList();
+            
             List<SelectListItem> categories = new List<SelectListItem>();
-            foreach (var category in artCategories)
-            {
-                categories.Add(new SelectListItem() { Value = category.Name, Text = category.Name });
-            }
-
+            categories.Add(new SelectListItem { Value = "Painting", Text = "Painting" });
+            categories.Add(new SelectListItem { Value = "Digital", Text = "Digital" });
+            categories.Add(new SelectListItem { Value = "Drawing", Text = "Drawing" });
+            categories.Add(new SelectListItem { Value = "Sculpture", Text = "Sculpture" });
+            categories.Add(new SelectListItem { Value = "Clothing", Text = "Clothing" });
+            categories.Add(new SelectListItem { Value = "Crafts", Text = "Crafts" });
+            categories.Add(new SelectListItem { Value = "Woodwork", Text = "Woodwork" });
+            categories.Add(new SelectListItem { Value = "Jewelry", Text = "Jewelry" });
+            categories.Add(new SelectListItem { Value = "Photography", Text = "Photography" });
             ViewBag.ArtCategories = categories;
             Artist artist = new Artist();
+            
             return View(artist);
         }
 
