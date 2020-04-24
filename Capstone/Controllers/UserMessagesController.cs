@@ -31,6 +31,12 @@ namespace Capstone.Controllers
             return View(userMessages);
         }
 
+        public ActionResult SendMessage()
+        {
+            UserMessage message = new UserMessage();
+            return View(message);
+        }
+        [HttpPost]
         public IActionResult SendMessage(string id)
         {
             var loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -44,6 +50,7 @@ namespace Capstone.Controllers
             return RedirectToAction("Index", "Consumers");
         }
 
+
         // GET: UserMessages/Details/5
         public ActionResult Details(int? id)
         {
@@ -55,19 +62,15 @@ namespace Capstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(UserMessage userMessage)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            
+               
                 userMessage = new UserMessage();
                 userMessage.DateTime = DateTime.UtcNow;
                 _context.UserMessages.Add(userMessage);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            
+            
         }
 
         // GET: UserMessages/Edit/5
