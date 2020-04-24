@@ -115,6 +115,10 @@ namespace Capstone.Areas.Identity.Pages.Account
                         {
                             return RedirectToAction("Create", "Artists");
                         }
+                        else if(Input.Role == "Consumer")
+                        {
+                            return RedirectToAction("Create", "Consumers");
+                        }
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }

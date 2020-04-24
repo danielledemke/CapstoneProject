@@ -24,7 +24,7 @@
                     responsive: true
                 }
             });
-            document.getElementById("myChart").Append(myLineChart);
+            document.getElementById("myChart").innerHTML(myLineChart);
         });
 
 

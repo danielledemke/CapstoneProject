@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Capstone.Models.Consumer>
+﻿@model Capstone.Models.Consumer
 
 @{
     ViewData["Title"] = "Index";
@@ -38,58 +38,28 @@
 
         <div class="row" style="padding-bottom:30px;">
             <p>
-                 
+                 <img src="~/Template/assets/img/daisysticker.jpg" />
             </p>
-
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FirstName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.LastName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.StreetAddress)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ZipCode)
-                    </th>
-                    <th>
-                        <i>Actions</i>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StreetAddress)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ZipCode)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.ConsumerId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.ConsumerId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ConsumerId">Delete</a>
-                        </td>
-                    </tr>
-                    @Html.HiddenFor(modelItem => item.ConsumerId)
-                    @Html.HiddenFor(modelItem => item.IdentityUserId)
-                    @Html.HiddenFor(modelItem => item.Latitude)
-                    @Html.HiddenFor(modelItem => item.Longitude)
-                }
-            </tbody>
+        
+            <div class="row">
+
+                <div class="col-4; justify-content-center">
+                    <a asp-action="Edit" asp-route-id="model.ConsumerId">Edit</a>
+                </div>
+                <div class="col-4">
+                    <a asp-action="Details" asp-route-id="model.ConsumerId">Details</a> 
+                </div>
+                <div class="col-4">
+                    <a asp-action="Delete" asp-route-id="model.ConsumerId">Delete</a>
+                </div>
+               </div>
+                        
+                    @Html.HiddenFor(model => model.ConsumerId)
+                    @Html.HiddenFor(model => model.IdentityUserId)
+                    @Html.HiddenFor(model => model.Latitude)
+                    @Html.HiddenFor(model=> model.Longitude)
+             
            
-        </table>
+        
     </body>

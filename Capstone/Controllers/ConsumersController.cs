@@ -55,7 +55,7 @@ namespace Capstone.Controllers
         // GET: Consumers/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             Consumer consumer = new Consumer();
             return View(consumer);
         }
