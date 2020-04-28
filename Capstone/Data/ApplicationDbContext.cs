@@ -42,6 +42,8 @@ namespace Capstone.Data
         public DbSet<ArtistCategories> ArtistCategories { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<Capstone.Models.ArtistArtwork> ArtistArtwork { get; set; }
+        public DbSet<Capstone.Models.ArtworkOrder> ArtworkOrder { get; set; }
         
     }
 }
