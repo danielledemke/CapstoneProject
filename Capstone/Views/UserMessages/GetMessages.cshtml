@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Capstone.Models.UserMessage>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Messages";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Message)
             </th>
             <th>
-                From
+                <p>From</p>
             </th>
             <th></th>
         </tr>
@@ -47,6 +47,7 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.UserMessageId })
                 </td>
             </tr>
+            
         }
     </tbody>
 </table>

@@ -80,7 +80,7 @@ namespace Capstone.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var currentUser = _context.Artist.Where(a => a.IdentityUserId == currentUserId).SingleOrDefault();
+            var currentUser = _context.Artist.Where(a => a.IdentityUserId == currentUserId).FirstOrDefault();
             
             if (ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace Capstone.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
                     if (currentUser.ArtistId == 0)
                     {
-                        var user = _context.Consumer.Where(a => a.IdentityUserId == currentUserId).SingleOrDefault();
+                        var user = _context.Consumer.Where(a => a.IdentityUserId == currentUserId).FirstOrDefault();
                         if(user.ConsumerId == 0)
                         {
                             return RedirectToAction("Create", "Consumers");

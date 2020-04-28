@@ -25,9 +25,9 @@ namespace Capstone.Controllers
         public ActionResult GetMessages()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var foundUser = _context.Users.Where(s => s.Id == userId).SingleOrDefault();
+            var foundUser = _context.Users.Where(s => s.Id == userId).FirstOrDefault();
             var userMessages = _context.UserMessages.Where(a => a.RecipientUserId == foundUser.Id).Select(a=>a);
-            ViewBag.UserList = _context.UserMessages.Where(a => a.IdentityUser.Id == a.IdentityUserId).Distinct();
+            ViewBag.UserList = _context.UserMessages.Where(a => a.IdentityUser.Id == a.IdentityUserId).Distinct().ToList();
             return View(userMessages);
         }
 

@@ -29,7 +29,7 @@ namespace Capstone.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var consumer = _context.Consumer.Where(a=>a.IdentityUserId == userId).SingleOrDefault();
+            var consumer = _context.Consumer.Where(a=>a.IdentityUserId == userId).FirstOrDefault();
             return View(consumer);
         }
 
