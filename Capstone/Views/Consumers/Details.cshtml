@@ -4,87 +4,91 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <style type="text/css">
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        #map{
+            height: 100px;
+        }
+    </style>
+</head>
 
-            #map_canvas {
-                height: 100px;
-            }
-        </style>
-    </head>
+<body>
+    <h1>Details</h1>
 
-    <body>
-        <h1>Details</h1>
-
-        <div>
-            <h4>Consumer</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.FirstName)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.LastName)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.LastName)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.StreetAddress)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.StreetAddress)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.ZipCode)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.ZipCode)
-                </dd>
-            </dl>
+    <div>
+        <h4>Consumer</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StreetAddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StreetAddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ZipCode)
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="map"></div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div id="map"></div>
-            </div>
-        </div>
-        <div>
-            <p>
-                <a asp-controller="UserMessage" asp-action="SendMessage" asp-route-id="@Model.ConsumerId">Send A Message</a>
-            </p>
-        </div>
-        <div>
+    </div>
+    <div>
+        <p>
+            <a asp-controller="UserMessage" asp-action="SendMessage" asp-route-id="@Model.ConsumerId">Send A Message</a>
+        </p>
+    </div>
+    <div>
 
-            <a asp-controller="Artists" asp-action="Index">Back to Home</a>
-        </div>
+        <a asp-controller="Artists" asp-action="Index">Back to Home</a>
+    </div>
 
 
-        <script>
+    <script>
             var zipcode = @Html.Raw(Model.ZipCode);
+            var latitude = @Html.Raw(Model.Latitude);
+            var longitude = @Html.Raw(Model.Longitude);
+            var map;
+            var marker;
+          function initMap() {
 
-    $(document).ready(function() {
-        // execute
-        (function() {
-            // map options
             var options = {
-                zoom: 5,
-                center: new google.maps.LatLng(Model.Lat,Model.Lng),
+                zoom: 8,
+                center: new google.maps.LatLng(latitude, longitude),
                 mapTypeId: google.maps.MapTypeId.TERRAIN,
                 mapTypeControl: false
             };
 
-            // init map
-            var map = new google.maps.Map(document.getElementById('map'), options);
+            map = new google.maps.Map(document.getElementById("map"), options);
 
             // init marker
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(Model.Lat, Model.Lng),
+             marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(latitude, longitude),
                     map: map,
-                    title: Model.zipcode
+                    title: zipcode
                 });
-        </script>
-       
-    </body>
+
+            };
+    </script>
+
+</body>
+</html>
