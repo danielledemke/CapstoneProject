@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Capstone.Data;
 using Capstone.Models;
+using System.Security.Claims;
 
 namespace Capstone.Controllers
 {
@@ -20,12 +21,24 @@ namespace Capstone.Controllers
         }
 
         // GET: ArtistArtworks
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            var applicationDbContext = _context.ArtistArtwork.Include(a => a.Artist);
-            return View(await applicationDbContext.ToListAsync());
+            try
+            { 
+                return RedirectToAction("Index", "Consumers");
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Artists");
+            }
         }
 
+        public ActionResult GetAllArtwork(int id)
+        {
+            //var artist = _context.Artist.Where(a => a.ArtistId == id).SingleOrDefault();
+            var artistArtworks = _context.ArtistArtwork.Select(a => a.ArtistId == id);
+            return View(artistArtworks);
+        }
         // GET: ArtistArtworks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,8 +61,8 @@ namespace Capstone.Controllers
         // GET: ArtistArtworks/Create
         public IActionResult Create()
         {
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "ArtistId", "ArtistId");
-            return View();
+            ArtistArtwork artwork = new ArtistArtwork();
+            return View(artwork);
         }
 
         // POST: ArtistArtworks/Create

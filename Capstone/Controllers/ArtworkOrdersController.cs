@@ -20,10 +20,21 @@ namespace Capstone.Controllers
         }
 
         // GET: ArtworkOrders
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            var applicationDbContext = _context.ArtworkOrder.Include(a => a.Artist).Include(a => a.ArtistArtwork).Include(a => a.Consumer);
-            return View(await applicationDbContext.ToListAsync());
+            try
+            {
+                return RedirectToAction("Index", "Consumers");
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Artists");
+            }
+        }
+         public ActionResult GetAllOrders(int id)
+        {
+            var orders = _context.ArtworkOrder.Select(s => s.ArtistId == id);
+            return View(orders);
         }
 
         // GET: ArtworkOrders/Details/5
