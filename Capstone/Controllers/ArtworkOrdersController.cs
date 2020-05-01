@@ -22,18 +22,13 @@ namespace Capstone.Controllers
         // GET: ArtworkOrders
         public ActionResult Index()
         {
-            try
-            {
-                return RedirectToAction("Index", "Consumers");
-            }
-            catch
-            {
+           
                 return RedirectToAction("Index", "Artists");
-            }
+            
         }
          public ActionResult GetAllOrders(int id)
         {
-            var orders = _context.ArtworkOrder.Select(s => s.ArtistId == id);
+            var orders = _context.ArtworkOrder.Where(s => s.ArtistId == id);
             return View(orders);
         }
 

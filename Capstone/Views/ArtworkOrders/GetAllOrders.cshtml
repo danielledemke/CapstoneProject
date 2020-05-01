@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Capstone.Models.ArtworkOrder>
+
+@{
+    ViewData["Title"] = "GetAllOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>All Orders</h1>
+
+<p>
+    <a asp-action="Create">Create New Order</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArtistArtwork)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Consumer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtistArtwork.ArtistArtworkId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artist.ArtistId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consumer.ConsumerId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ArtworkOrderId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ArtworkOrderId">Details</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

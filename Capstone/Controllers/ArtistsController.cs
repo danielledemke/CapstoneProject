@@ -10,6 +10,7 @@ using Capstone.Models;
 using System.Security.Claims;
 using Capstone.Contracts;
 using Capstone.Services;
+using Newtonsoft.Json;
 
 namespace Capstone.Controllers
 {
@@ -33,6 +34,22 @@ namespace Capstone.Controllers
             var numberOfRequests = _context.ConsumerRequest.Count();
             ViewBag.NumberOfRequests = numberOfRequests;
             ViewBag.ImgUrl = artist.ImgUrl;
+            var orders = _context.ArtworkOrder.Where(b => b.ArtistId == artist.ArtistId).ToList();
+            var profit = GetTotalProfit();
+            ViewBag.TotalProfit = profit;
+            var artworksSold = orders.Count();
+            List<DataPoint> dataPoints1 = new List<DataPoint>();
+            List<DataPoint> dataPoints2 = new List<DataPoint>();
+            List<DataPoint> dataPoints3 = new List<DataPoint>();
+            dataPoints1.Add(new DataPoint("2019", 5));
+            dataPoints1.Add(new DataPoint("2020", artworksSold));
+            dataPoints2.Add(new DataPoint("Apr", 0));
+            dataPoints2.Add(new DataPoint("May", numberOfRequests));
+            dataPoints3.Add(new DataPoint("Apr", 38));
+            dataPoints3.Add(new DataPoint("May", profit));
+            ViewBag.Data1 = JsonConvert.SerializeObject(dataPoints1);
+            ViewBag.Data2 = JsonConvert.SerializeObject(dataPoints2);
+            ViewBag.Data3 = JsonConvert.SerializeObject(dataPoints3);
             var applicationDbContext = _context.ConsumerRequest.Select(a=>a);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -184,6 +201,19 @@ namespace Capstone.Controllers
         private bool ArtistExists(int id)
         {
             return _context.Artist.Any(e => e.ArtistId == id);
+        }
+
+        public double GetTotalProfit()
+        {
+            double totalProfit = 0;
+            var artistId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var artist = _context.Artist.Where(a => a.IdentityUserId == artistId).FirstOrDefault();
+            var orders = _context.ArtworkOrder.Where(b => b.ArtistId == artist.ArtistId).ToList();
+            foreach(var order in orders)
+            {
+                totalProfit += order.ArtistArtwork.ArtworkPrice;
+            }
+            return totalProfit;
         }
     }
 }

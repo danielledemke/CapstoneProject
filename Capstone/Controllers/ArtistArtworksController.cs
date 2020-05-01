@@ -23,20 +23,16 @@ namespace Capstone.Controllers
         // GET: ArtistArtworks
         public ActionResult Index()
         {
-            try
-            { 
-                return RedirectToAction("Index", "Consumers");
-            }
-            catch
-            {
+            
+            
                 return RedirectToAction("Index", "Artists");
-            }
+            
         }
 
         public ActionResult GetAllArtwork(int id)
         {
             //var artist = _context.Artist.Where(a => a.ArtistId == id).SingleOrDefault();
-            var artistArtworks = _context.ArtistArtwork.Select(a => a.ArtistId == id);
+            var artistArtworks = _context.ArtistArtwork.Where(a => a.ArtistId == id).ToList();
             return View(artistArtworks);
         }
         // GET: ArtistArtworks/Details/5
@@ -76,7 +72,7 @@ namespace Capstone.Controllers
             {
                 _context.Add(artistArtwork);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Artists");
             }
             ViewData["ArtistId"] = new SelectList(_context.Artist, "ArtistId", "ArtistId", artistArtwork.ArtistId);
             return View(artistArtwork);

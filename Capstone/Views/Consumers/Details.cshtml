@@ -48,13 +48,13 @@
         </dl>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-6">
             <div id="map" style="width:100%;height:300px;"></div>
         </div>
     </div>
     <div>
         <p>
-            <a asp-controller="UserMessage" asp-action="SendMessage" asp-route-id="@Model.ConsumerId">Send A Message</a>
+            <a asp-controller="UserMessages" asp-action="SendMessage" asp-route-id="@Model.IdentityUserId">Send A Message</a>
         </p>
     </div>
     <div>

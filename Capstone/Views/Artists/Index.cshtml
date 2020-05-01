@@ -20,85 +20,142 @@
             </div>
         </div>
         <div class="row">
-            
+
             <div class="col-3">
                 <p>
-                    <a asp-action="Create">Add New Profile</a>
+                    <a asp-controller="ArtistArtworks" asp-action="GetAllArtwork">View Your Artwork</a>
                 </p>
             </div>
-                <div class="col-3">
-                    <p>
-                        <a asp-action="Edit" asp-route-id="@ViewBag.CurrentArtistId">Edit Your Account</a> 
-                    </p>
-                </div>
-                <div class="col-3">
-                    <p>
-                        <a asp-controller="ArtworkOrders" asp-action="GetAllOrders" asp-route-id="@ViewBag.CurrentArtistId">See All Orders</a> 
-                    </p>
-                </div>
-                <div class="col-3">
-                    <p>
-                        <a asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</a>
-                    </p>
-                </div>
-         </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <canvas id="myChart" style="max-width:50%;"></canvas>
-                </div>
-                <div class="col-3">
-                    <img style="resize:both" src="~/Template/assets/img/sampleArt.jpg" alt="sample art" />
-                </div>
-
+            <div class="col-3">
+                <p>
+                    <a asp-action="Edit" asp-route-id="@ViewBag.CurrentArtistId">Edit Your Account</a>
+                </p>
             </div>
+            <div class="col-3">
+                <p>
+                    <a asp-controller="ArtworkOrders" asp-action="GetAllOrders" asp-route-id="@ViewBag.CurrentArtistId">See All Orders</a>
+                </p>
+            </div>
+            <div class="col-3">
+                <p>
+                    <a asp-controller="UserMessages" asp-action="GetMessages">Check Inbox</a>
+                </p>
+            </div>
+        </div>
 
-            <table class="table">
-                <thead>
+        <div class="row" style="text-align:center">
+            <div class="col-4">
+                <div id="chartContainer1" style="height: 350px; width: 100%;"></div>
+            </div>
+            <div class="col-4">
+                <div id="chartContainer2" style="height: 350px; width: 100%;"></div>
+            </div>
+            <div class="col-4">
+                <div id="chartContainer3" style="height: 350px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Request)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DateTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Consumer.FirstName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Consumer.LastName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Request)
-                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Request)
+                        </td>
+                        <td>
+                            <a asp-controller="Consumers" asp-action="Details" asp-route-id="@item.ConsumerId">View Profile</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateTime)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Consumer.FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Consumer.LastName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Request)
-                            </td>
-                            <td>
-                                <a asp-controller="Consumers" asp-action="Details" asp-route-id="@item.ConsumerId">View Profile</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
+        </table>
 
-            <!-- MDB core JavaScript -->
-            <script type="text/javascript" src="~/Template/assets/js/mdb.min.js"></script>
-            <!-- Bootstrap tooltips -->
-            <script type="text/javascript" src="~/Template/assets/js/popper.min.js"></script>
-            <script type="text/javascript" src="~/Template/assets/js/chart.js"></script>
-            <script src="~/Template/assets/js/chart.js"></script>
+        <script>
+            window.onload = function () {
 
-</body>
+                var chart1 = new CanvasJS.Chart("chartContainer1", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Number of Artworks Sold"
+                    },
+                    axisY: {
+                        includeZero: false
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    data: [{
+                        type: "line",
+                        name: "Artworks Sold",
+                        showInLegend: true,
+                        dataPoints: @Html.Raw(ViewBag.Data1)
+	                }]
+                }
+                );
+                var chart2 = new CanvasJS.Chart("chartContainer2", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Number of Consumer Requests"
+                    },
+                    axisY: {
+                        includeZero: false
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    data: [{
+                        type: "line",
+                        name: "Consumer Requests",
+                        showInLegend: true,
+                        dataPoints: @Html.Raw(ViewBag.Data2)
+	                }]
+                }
+                );
+                var chart3 = new CanvasJS.Chart("chartContainer3", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Total Profit"
+                    },
+                    axisY: {
+                        includeZero: false
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    data: [{
+                        type: "line",
+                        name: "Total Profit in $",
+                        showInLegend: true,
+                        dataPoints: @Html.Raw(ViewBag.Data3)
+	                }]
+                }
+                );
+                chart1.render();
+                chart2.render();
+                chart3.render();
+
+            };
+        </script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="~/Template/assets/js/mdb.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="~/Template/assets/js/popper.min.js"></script>
+        <script type="text/javascript" src="~/Template/assets/js/chart.js"></script>
+        <script src="~/Template/assets/js/chart.js"></script>
+        <script src="~/Template/assets/js/canvasjs.min.js"></script>
+
+    </body>

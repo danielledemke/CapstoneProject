@@ -31,17 +31,15 @@ namespace Capstone.Controllers
             return View(userMessages);
         }
 
-        public ActionResult SendMessage()
-        {
-            UserMessage message = new UserMessage();
-            return View(message);
-        }
-        [HttpPost]
-        public IActionResult SendMessage(string id)
+        public IActionResult SendMessage(string? id)
         {
             var loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewBag.Sender = _context.Users.Where(a => a.Id == loggedInUserId).SingleOrDefault();
-            ViewBag.Recipient = _context.Users.Where(a => a.Id == id).SingleOrDefault();
+            var sender = _context.Users.Where(a => a.Id == loggedInUserId).SingleOrDefault();
+            var recipient = _context.Users.Where(a => a.Id == id).SingleOrDefault();
+            var senderId = sender.Id;
+            var recipientId = recipient.Id;
+            ViewBag.Sender.UserId = senderId;
+            ViewBag.Recipient.UserId = recipientId;
             return View();
         }
 
