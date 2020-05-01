@@ -31,21 +31,21 @@ namespace Capstone.Controllers
             return View(userMessages);
         }
 
-        public IActionResult SendMessage(string? id)
+        public IActionResult SendMessage(string id)
         {
             var loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var sender = _context.Users.Where(a => a.Id == loggedInUserId).SingleOrDefault();
             var recipient = _context.Users.Where(a => a.Id == id).SingleOrDefault();
             var senderId = sender.Id;
             var recipientId = recipient.Id;
-            ViewBag.Sender.UserId = senderId;
-            ViewBag.Recipient.UserId = recipientId;
-            return View();
+            ViewBag.SenderUserId = senderId;
+            ViewBag.RecipientUserId = recipientId;
+            return RedirectToAction(nameof(Index));
         }
 
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Consumers");
+            return RedirectToAction(nameof(Index));
         }
 
 

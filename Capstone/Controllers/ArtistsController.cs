@@ -43,9 +43,11 @@ namespace Capstone.Controllers
             List<DataPoint> dataPoints3 = new List<DataPoint>();
             dataPoints1.Add(new DataPoint("2019", 5));
             dataPoints1.Add(new DataPoint("2020", artworksSold));
-            dataPoints2.Add(new DataPoint("Apr", 0));
+            dataPoints2.Add(new DataPoint("Mar", 7));
+            dataPoints2.Add(new DataPoint("Apr", 2));
             dataPoints2.Add(new DataPoint("May", numberOfRequests));
-            dataPoints3.Add(new DataPoint("Apr", 38));
+            dataPoints3.Add(new DataPoint("Mar", 25));
+            dataPoints3.Add(new DataPoint("Apr", 65));
             dataPoints3.Add(new DataPoint("May", profit));
             ViewBag.Data1 = JsonConvert.SerializeObject(dataPoints1);
             ViewBag.Data2 = JsonConvert.SerializeObject(dataPoints2);

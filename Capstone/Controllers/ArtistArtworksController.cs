@@ -29,10 +29,11 @@ namespace Capstone.Controllers
             
         }
 
-        public ActionResult GetAllArtwork(int id)
+        public ActionResult GetAllArtwork(int? id)
         {
-            //var artist = _context.Artist.Where(a => a.ArtistId == id).SingleOrDefault();
-            var artistArtworks = _context.ArtistArtwork.Where(a => a.ArtistId == id).ToList();
+            //var artistId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var artist = _context.Artist.Where(a => a.IdentityUserId == artistId).FirstOrDefault();
+            var artistArtworks = _context.ArtistArtwork.Where(a => a.Artist.ArtistId == id).ToList();
             return View(artistArtworks);
         }
         // GET: ArtistArtworks/Details/5
@@ -66,16 +67,14 @@ namespace Capstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArtistArtworkId,Name,InStock,ImgUrl,ArtworkPrice,ArtistId")] ArtistArtwork artistArtwork)
+        public async Task<IActionResult> Create([Bind("ArtistArtworkId,Name,InStock,ImgUrl,ArtworkPrice,ArtistId")] ArtistArtwork artwork)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(artistArtwork);
+
+            _context.ArtistArtwork.Add(artwork);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Artists");
-            }
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "ArtistId", "ArtistId", artistArtwork.ArtistId);
-            return View(artistArtwork);
+                return RedirectToAction("GetAllArtwork", "ArtistArtworks");
+            
+            
         }
 
         // GET: ArtistArtworks/Edit/5

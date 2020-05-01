@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Capstone.Models.ArtistArtwork>
 
 @{
-    ViewData["Title"] = "GetAllArtwork";
+    ViewData["Title"] = "All Artwork";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>GetAllArtwork</h1>
+<h1>All Artwork</h1>
 
 <p>
     <a asp-action="Create">Add New Artwork</a>
@@ -29,27 +29,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InStock)
-            </td>
-            <td>
-                <img src="@Html.Raw(item.ImgUrl)" alt="Artwork Image" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArtworkPrice)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InStock)
+                </td>
+                <td>
+                    <img src="@Html.Raw(item.ImgUrl)" alt="Artwork Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArtworkPrice)
+                </td>
                 @Html.HiddenFor(modelItem => item.Artist.ArtistId)
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ArtistArtworkId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ArtistArtworkId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ArtistArtworkId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ArtistArtworkId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ArtistArtworkId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ArtistArtworkId">Delete</a>
+                </td>
+                
+            </tr>
+        }
+        </tbody>
 </table>
