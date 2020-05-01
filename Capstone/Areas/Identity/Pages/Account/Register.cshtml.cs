@@ -113,10 +113,12 @@ namespace Capstone.Areas.Identity.Pages.Account
                     {
                         if (Input.Role == "Artist")
                         {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
                             return RedirectToAction("Create", "Artists");
                         }
                         else if(Input.Role == "Consumer")
                         {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
                             return RedirectToAction("Create", "Consumers");
                         }
                         await _signInManager.SignInAsync(user, isPersistent: false);

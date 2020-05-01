@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200428205419_Initial")]
+    [Migration("20200501024023_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,35 @@ namespace Capstone.Migrations
                     b.ToTable("Artist");
                 });
 
+            modelBuilder.Entity("Capstone.Models.ArtistArtwork", b =>
+                {
+                    b.Property<int>("ArtistArtworkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ArtworkPrice")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InStock")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ArtistArtworkId");
+
+                    b.HasIndex("ArtistId");
+
+                    b.ToTable("ArtistArtwork");
+                });
+
             modelBuilder.Entity("Capstone.Models.ArtistCategories", b =>
                 {
                     b.Property<int>("ArtistCategoryId")
@@ -73,6 +102,39 @@ namespace Capstone.Migrations
                     b.HasIndex("CategoriesId");
 
                     b.ToTable("ArtistCategories");
+                });
+
+            modelBuilder.Entity("Capstone.Models.ArtworkOrder", b =>
+                {
+                    b.Property<int>("ArtworkOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ArtistArtworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ConsumerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ShippedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ArtworkOrderId");
+
+                    b.HasIndex("ArtistArtworkId");
+
+                    b.HasIndex("ArtistId");
+
+                    b.HasIndex("ConsumerId");
+
+                    b.ToTable("ArtworkOrder");
                 });
 
             modelBuilder.Entity("Capstone.Models.Categories", b =>
@@ -440,6 +502,13 @@ namespace Capstone.Migrations
                         .HasForeignKey("IdentityUserId");
                 });
 
+            modelBuilder.Entity("Capstone.Models.ArtistArtwork", b =>
+                {
+                    b.HasOne("Capstone.Models.Artist", "Artist")
+                        .WithMany()
+                        .HasForeignKey("ArtistId");
+                });
+
             modelBuilder.Entity("Capstone.Models.ArtistCategories", b =>
                 {
                     b.HasOne("Capstone.Models.Artist", "Artist")
@@ -453,6 +522,21 @@ namespace Capstone.Migrations
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Capstone.Models.ArtworkOrder", b =>
+                {
+                    b.HasOne("Capstone.Models.ArtistArtwork", "ArtistArtwork")
+                        .WithMany()
+                        .HasForeignKey("ArtistArtworkId");
+
+                    b.HasOne("Capstone.Models.Artist", "Artist")
+                        .WithMany()
+                        .HasForeignKey("ArtistId");
+
+                    b.HasOne("Capstone.Models.Consumer", "Consumer")
+                        .WithMany()
+                        .HasForeignKey("ConsumerId");
                 });
 
             modelBuilder.Entity("Capstone.Models.Consumer", b =>

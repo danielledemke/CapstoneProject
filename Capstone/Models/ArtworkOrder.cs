@@ -16,16 +16,16 @@ namespace Capstone.Models
         public DateTime ShippedDate { get; set; }
 
         [ForeignKey("ArtistArtwork")]
-        public int ArtistArtworkId { get; set; }
+        public int? ArtistArtworkId { get; set; }
         public ArtistArtwork ArtistArtwork { get; set; }
 
         [ForeignKey("Artist")]
-        public int ArtistId { get; set; }
+        public int? ArtistId { get; set; }
         public Artist Artist { get; set; }
 
 
         [ForeignKey("Consumer")]
-        public int ConsumerId { get; set; }
+        public int? ConsumerId { get; set; }
         public Consumer Consumer { get; set; }
 
 

@@ -12,6 +12,7 @@
 </head>
 <body>
     <h1>Artist Search</h1>
+    <div>
 
     @using (Html.BeginForm("FilterByCategory", "Consumer", new { @id = "FilterForm" }))
     {
@@ -67,6 +68,7 @@
             </tbody>
         </table>
     </div>
+        </div>
     <div>
         <a asp-controller="Consumers" asp-action="Index">Back to Home</a>
     </div>

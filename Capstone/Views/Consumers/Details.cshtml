@@ -49,7 +49,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div id="map"></div>
+            <div id="map" style="width:100%;height:300px;"></div>
         </div>
     </div>
     <div>
@@ -63,32 +63,14 @@
     </div>
 
 
-    <script>
-            var zipcode = @Html.Raw(Model.ZipCode);
-            var latitude = @Html.Raw(Model.Latitude);
-            var longitude = @Html.Raw(Model.Longitude);
-            var map;
-            var marker;
-          function initMap() {
-
-            var options = {
-                zoom: 8,
-                center: new google.maps.LatLng(latitude, longitude),
-                mapTypeId: google.maps.MapTypeId.TERRAIN,
-                mapTypeControl: false
-            };
-
-            map = new google.maps.Map(document.getElementById("map"), options);
-
-            // init marker
-             marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(latitude, longitude),
-                    map: map,
-                    title: zipcode
-                });
-
-            };
-    </script>
+<script>
+    function initMap() {
+        var uluru = { lat: @Model.Latitude, lng: @Model.Longitude };
+        var map = new google.maps.Map(document.getElementById('map'), { zoom: 6, center: uluru });
+        var marker = new google.maps.Marker({ position: uluru, map: map });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=@ApiKey.GoogleKey&callback=initMap"></script>
 
 </body>
 </html>

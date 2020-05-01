@@ -89,25 +89,9 @@ namespace Capstone.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    
                     _logger.LogInformation("User logged in.");
-                    if (currentUser.ArtistId == 0)
-                    {
-                        var user = _context.Consumer.Where(a => a.IdentityUserId == currentUserId).FirstOrDefault();
-                        if(user.ConsumerId == 0)
-                        {
-                            return RedirectToAction("Create", "Consumers");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Create", "Artists");
-                        }
-                        
-                    }
-                    //else
-                    //{
-                    //    return RedirectToAction("Index");
-                    //}
+                   return RedirectToAction("Index");
+                    
                 }
                 if (result.RequiresTwoFactor)
                 {

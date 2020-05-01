@@ -36,27 +36,28 @@
             </div>
         </div>
 
-        <div class="row" style="padding-bottom:30px;">
-            <div class="col-12" style="align-content:center">
-                <p style="align-content:center">
-                    <img style="content-" src="~/Template/assets/img/daisysticker.jpg" />
+        <div class="row" style="padding-top:5px;padding-bottom:5px;">
+            <div class="col-12">
+                <p class="text-center">
+                    <img src="~/Template/assets/img/navy.png" />
                 </p>
             </div>
             
         </div>
         
-            <div class="row">
-
+        <div class="row">
+           
                 <div class="col-4">
-                    <a asp-action="Edit" asp-route-id="model.ConsumerId">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@Model.ConsumerId">Edit</a>
                 </div>
                 <div class="col-4">
-                    <a asp-action="Details" asp-route-id="model.ConsumerId">Details</a> 
+                    <a asp-action="Details" asp-route-id="@Model.ConsumerId">Details</a>
                 </div>
                 <div class="col-4">
-                    <a asp-action="Delete" asp-route-id="model.ConsumerId">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@Model.ConsumerId">Delete</a>
                 </div>
-               </div>
+            
+            </div>
                         
                     @Html.HiddenFor(model => model.ConsumerId)
                     @Html.HiddenFor(model => model.IdentityUserId)

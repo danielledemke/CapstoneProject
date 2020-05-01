@@ -236,6 +236,29 @@ namespace Capstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ArtistArtwork",
+                columns: table => new
+                {
+                    ArtistArtworkId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    InStock = table.Column<bool>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true),
+                    ArtworkPrice = table.Column<double>(nullable: false),
+                    ArtistId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArtistArtwork", x => x.ArtistArtworkId);
+                    table.ForeignKey(
+                        name: "FK_ArtistArtwork_Artist_ArtistId",
+                        column: x => x.ArtistId,
+                        principalTable: "Artist",
+                        principalColumn: "ArtistId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ArtistCategories",
                 columns: table => new
                 {
@@ -283,6 +306,41 @@ namespace Capstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ArtworkOrder",
+                columns: table => new
+                {
+                    ArtworkOrderId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PurchaseDate = table.Column<DateTime>(nullable: false),
+                    ShippedDate = table.Column<DateTime>(nullable: false),
+                    ArtistArtworkId = table.Column<int>(nullable: true),
+                    ArtistId = table.Column<int>(nullable: true),
+                    ConsumerId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArtworkOrder", x => x.ArtworkOrderId);
+                    table.ForeignKey(
+                        name: "FK_ArtworkOrder_ArtistArtwork_ArtistArtworkId",
+                        column: x => x.ArtistArtworkId,
+                        principalTable: "ArtistArtwork",
+                        principalColumn: "ArtistArtworkId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ArtworkOrder_Artist_ArtistId",
+                        column: x => x.ArtistId,
+                        principalTable: "Artist",
+                        principalColumn: "ArtistId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ArtworkOrder_Consumer_ConsumerId",
+                        column: x => x.ConsumerId,
+                        principalTable: "Consumer",
+                        principalColumn: "ConsumerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -314,6 +372,11 @@ namespace Capstone.Migrations
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ArtistArtwork_ArtistId",
+                table: "ArtistArtwork",
+                column: "ArtistId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ArtistCategories_ArtistId",
                 table: "ArtistCategories",
                 column: "ArtistId");
@@ -322,6 +385,21 @@ namespace Capstone.Migrations
                 name: "IX_ArtistCategories_CategoriesId",
                 table: "ArtistCategories",
                 column: "CategoriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArtworkOrder_ArtistArtworkId",
+                table: "ArtworkOrder",
+                column: "ArtistArtworkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArtworkOrder_ArtistId",
+                table: "ArtworkOrder",
+                column: "ArtistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArtworkOrder_ConsumerId",
+                table: "ArtworkOrder",
+                column: "ConsumerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -384,6 +462,9 @@ namespace Capstone.Migrations
                 name: "ArtistCategories");
 
             migrationBuilder.DropTable(
+                name: "ArtworkOrder");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -405,16 +486,19 @@ namespace Capstone.Migrations
                 name: "UserMessages");
 
             migrationBuilder.DropTable(
-                name: "Artist");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "ArtistArtwork");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Consumer");
+
+            migrationBuilder.DropTable(
+                name: "Artist");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

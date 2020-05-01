@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Text;
 using Capstone.Models;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +17,7 @@ namespace Capstone.Data
         }
 
         protected override void OnModelCreating(ModelBuilder builder) 
-        { 
+        {
             base.OnModelCreating(builder);
             builder.Entity<IdentityRole>()
                 .HasData(

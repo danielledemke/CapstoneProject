@@ -55,7 +55,7 @@ namespace Capstone.Controllers
         // GET: Consumers/Create
         public IActionResult Create()
         {
-            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             Consumer consumer = new Consumer();
             return View(consumer);
         }
@@ -67,8 +67,6 @@ namespace Capstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ConsumerId,FirstName,LastName,StreetAddress,ZipCode,Longitude,Latitude,IdentityUserId")] Consumer consumer)
         {
-            if (ModelState.IsValid)
-            {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 consumer.IdentityUserId = userId;
                 var coords = await _locationService.GetUserCoords(consumer);
@@ -76,26 +74,20 @@ namespace Capstone.Controllers
                 consumer.Longitude = coords.results[0].geometry.location.lng;
                 _context.Add(consumer);
                 await _context.SaveChangesAsync();
+                ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumer.IdentityUserId);
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumer.IdentityUserId);
-            return View(consumer);
+
         }
 
         // GET: Consumers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var consumer = await _context.Consumer.FindAsync(id);
+            
+            var consumer = _context.Consumer.SingleOrDefault(c => c.ConsumerId == id);
             if (consumer == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumer.IdentityUserId);
             return View(consumer);
         }
 
@@ -104,35 +96,18 @@ namespace Capstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ConsumerId,FirstName,LastName,StreetAddress,ZipCode,Longitude,Latitude,IdentityUserId")] Consumer consumer)
+        public IActionResult Edit(Consumer consumer)
         {
-            if (id != consumer.ConsumerId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(consumer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ConsumerExists(consumer.ConsumerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumer.IdentityUserId);
-            return View(consumer);
+            var consumerInDb = _context.Consumer.SingleOrDefault(c => c.ConsumerId == consumer.ConsumerId);
+            consumerInDb.FirstName = consumer.FirstName;
+            consumerInDb.LastName = consumer.LastName;
+            consumerInDb.StreetAddress = consumer.StreetAddress;
+            consumerInDb.ZipCode = consumer.ZipCode;
+            consumerInDb.Latitude = consumer.Latitude;
+            consumerInDb.Longitude = consumer.Longitude;
+            consumerInDb.IdentityUserId = consumer.IdentityUserId;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Consumers/Delete/5

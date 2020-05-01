@@ -19,7 +19,7 @@ namespace Capstone.Models
         public double ArtworkPrice { get; set; }
 
         [ForeignKey("Artist")]
-        public int ArtistId { get; set; }
+        public int? ArtistId { get; set; }
         public Artist Artist { get; set; }
 
 
