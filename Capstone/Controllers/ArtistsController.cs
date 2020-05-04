@@ -12,6 +12,7 @@ using Capstone.Contracts;
 using Capstone.Services;
 using Newtonsoft.Json;
 
+
 namespace Capstone.Controllers
 {
     public class ArtistsController : Controller

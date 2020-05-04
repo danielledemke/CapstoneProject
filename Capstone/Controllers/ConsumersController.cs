@@ -26,10 +26,13 @@ namespace Capstone.Controllers
         }
 
         // GET: Consumers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var consumer = _context.Consumer.Where(a=>a.IdentityUserId == userId).FirstOrDefault();
+            var consumer = _context.Consumer.Where(a => a.IdentityUserId == userId).FirstOrDefault();
+            var consumerId = consumer.ConsumerId;
+            ViewBag.UserId = userId;
+            ViewBag.ConsumerId = consumerId;
             return View(consumer);
         }
 
@@ -40,23 +43,15 @@ namespace Capstone.Controllers
             {
                 return NotFound();
             }
-
-            var consumer = await _context.Consumer
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.ConsumerId == id);
-            if (consumer == null)
-            {
-                return NotFound();
-            }
-
+            var consumer = _context.Consumer.Where(c => c.ConsumerId == id).SingleOrDefault();
             return View(consumer);
         }
 
         // GET: Consumers/Create
         public IActionResult Create()
-        {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+        { 
             Consumer consumer = new Consumer();
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View(consumer);
         }
 
@@ -67,6 +62,8 @@ namespace Capstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ConsumerId,FirstName,LastName,StreetAddress,ZipCode,Longitude,Latitude,IdentityUserId")] Consumer consumer)
         {
+            if (ModelState.IsValid)
+            {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 consumer.IdentityUserId = userId;
                 var coords = await _locationService.GetUserCoords(consumer);
@@ -74,8 +71,10 @@ namespace Capstone.Controllers
                 consumer.Longitude = coords.results[0].geometry.location.lng;
                 _context.Add(consumer);
                 await _context.SaveChangesAsync();
-                ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumer.IdentityUserId);
                 return RedirectToAction(nameof(Index));
+            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumer.IdentityUserId);
+            return View(consumer);
 
         }
 

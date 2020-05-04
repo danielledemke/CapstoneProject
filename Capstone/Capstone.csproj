@@ -30,9 +30,4 @@
     <None Include="wwwroot\Template\assets\img\sample.jpg" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Capstone.Models;
 using Capstone.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Capstone.Controllers
 {

@@ -36,10 +36,9 @@ namespace Capstone.Controllers
             var loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var sender = _context.Users.Where(a => a.Id == loggedInUserId).SingleOrDefault();
             var recipient = _context.Users.Where(a => a.Id == id).SingleOrDefault();
-            var senderId = sender.Id;
-            var recipientId = recipient.Id;
-            ViewBag.SenderUserId = senderId;
-            ViewBag.RecipientUserId = recipientId;
+           
+            ViewBag.SenderUserId = sender.Id;
+            ViewBag.RecipientUserId = recipient.Id;
             return RedirectToAction(nameof(Index));
         }
 
