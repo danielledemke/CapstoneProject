@@ -31,7 +31,7 @@ namespace Capstone.Controllers
             return View(userMessages);
         }
 
-        public IActionResult SendMessage(string id)
+        public IActionResult SendMessage(string? id)
         {
             var loggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var sender = _context.Users.Where(a => a.Id == loggedInUserId).SingleOrDefault();

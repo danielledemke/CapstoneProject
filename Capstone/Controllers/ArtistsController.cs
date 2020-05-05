@@ -65,19 +65,15 @@ namespace Capstone.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Consumer
-                .Include(a => a.IdentityUser)
-                .FirstOrDefaultAsync(m => m.ConsumerId == id);
-            var artistId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var artist = _context.Artist.Where(a => a.IdentityUserId == artistId).FirstOrDefault();
-            ViewBag.CurrentArtistId = artist.ArtistId;
+            var artist = _context.Artist.Where(a => a.ArtistId == id).FirstOrDefault();
+            ViewBag.ArtistId = artist.ArtistId;
 
-            if (user == null)
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(artist);
         }
 
         // GET: Artists/Create

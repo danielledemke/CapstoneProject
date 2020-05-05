@@ -154,6 +154,7 @@ namespace Capstone.Controllers
             categories.Add(new SelectListItem { Value = "Jewelry", Text = "Jewelry" });
             categories.Add(new SelectListItem { Value = "Photography", Text = "Photography" });
             ViewBag.ArtCategories = categories;
+            
 
             return View(artists);
         }
